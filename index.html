@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>¿Puedo salir contigo?</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: white;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 600px;
+      padding: 20px;
+    }
+
+    .cat-video {
+      width: 200px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1rem;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: black;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #333;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .emoji {
+      font-size: 2rem;
+      margin-top: -10px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Pantalla 1 -->
+  <div id="screen1" class="container">
+    <video autoplay loop muted playsinline class="cat-video">
+      <source src="cat 1.mp4" type="video/mp4" />
+    </video>
+    <h1>¿Puedo salir contigo Cecilia? 🥰</h1>
+    <p>No soy la gran cosa, pero si tienes un poquito de interés por conocerme, te aseguro que no te arrepentirás, este Sabado 4 de Octubre, en las alacitas</p>
+    <div class="buttons">
+      <button class="yes">SI</button>
+      <button class="no">NO</button>
+    </div>
+  </div>
+
+  <!-- Pantalla 2 -->
+  <div id="screen2" class="container hidden">
+    <video autoplay loop muted playsinline class="cat-video">
+      <source src="cat 2.mp4" type="video/mp4" />
+    </video>
+    <h1>¿Te lo pensarías un poco más?</h1>
+    <div class="emoji">🥺</div>
+    <div class="buttons">
+      <button class="yes">SI</button>
+      <button class="no">NO</button>
+    </div>
+  </div>
+
+  <!-- Pantalla 3 -->
+  <div id="screen3" class="container hidden">
+    <video autoplay loop muted playsinline class="cat-video">
+      <source src="cat 3.mp4" type="video/mp4" />
+    </video>
+    <h1>Vamos a salir por las buenas o por las malas, ¿Entendido? 😊</h1>
+    <div class="buttons">
+      <button class="yes">SI</button>
+      <button class="no">NO</button>
+    </div>
+  </div>
+
+<!-- Pantalla 4 -->
+<div id="screen4" class="container hidden">
+  <video autoplay loop muted playsinline class="cat-video">
+    <source src="cat de si.mp4" type="video/mp4" />
+  </video>
+  <img src="559e366e-1a99-4317-b56f-1afc29dd3afc4.png" style="max-width: 500px; border-radius: 12px; margin: 20px auto;" />
+  <h1>Es la mejor decisión que pudiste tomar! jeje, veras que no te arrepentirás Cecilia, la pasaremos super😘, ya veras 😉, estoy esperando con muchas ansias hasta este Sabado</h1>
+</div>
+
+<!-- Dentro del <script> ya existente -->
+<script>
+  const noButtons = document.querySelectorAll('.no');
+  const yesButtons = document.querySelectorAll('.yes');
+  const screens = [document.getElementById('screen1'), document.getElementById('screen2'), document.getElementById('screen3')];
+  let step = 0;
+
+  noButtons.forEach((button, index) => {
+    button.addEventListener('click', () => {
+      step++;
+      if (step < screens.length) {
+        screens.forEach(s => s.classList.add('hidden'));
+        screens[step].classList.remove('hidden');
+      } else {
+        location.reload();
+      }
+    });
+  });
+
+   yesButtons.forEach(button => {
+    button.addEventListener('click', () => {
+    screens.forEach(s => s.classList.add('hidden'));
+    const finalScreen = document.getElementById('screen4');
+    finalScreen.classList.remove('hidden');
+    });
+  });
+
+  // Escapar del botón NO en la pantalla 3
+  const noButtonFinal = screens[2].querySelector('.no');
+  const container = screens[2];
+
+  container.addEventListener('mousemove', e => {
+    const rect = noButtonFinal.getBoundingClientRect();
+    const mouseX = e.clientX;
+    const mouseY = e.clientY;
+    const offset = 80; // distancia para "sentir" el mouse cerca
+
+    if (
+      mouseX > rect.left - offset &&
+      mouseX < rect.right + offset &&
+      mouseY > rect.top - offset &&
+      mouseY < rect.bottom + offset
+    ) {
+      const newX = Math.random() * (container.clientWidth - noButtonFinal.offsetWidth);
+      const newY = Math.random() * (container.clientHeight - noButtonFinal.offsetHeight);
+      noButtonFinal.style.position = 'absolute';
+      noButtonFinal.style.left = `${newX}px`;
+      noButtonFinal.style.top = `${newY}px`;
+    }
+  });
+</script>
+</body>
+</html>
